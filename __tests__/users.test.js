@@ -29,7 +29,7 @@ describe('users routes', () => {
 
   it('it should sign in a user and allow access to profile', async () => {
     const agent = request.agent(app);
-    const user = await UserService.create(mockUser);
+    const user = await UserService.signUp(mockUser);
     await agent.post('/api/v1/users/sessions').send(mockUser);
     const res = await agent.get('/api/v1/users/me');
     expect(res.body.email).toEqual(user.email);
