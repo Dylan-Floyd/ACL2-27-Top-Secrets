@@ -34,6 +34,6 @@ describe('secrets routes', () => {
     await agent.post('/api/v1/users/sessions').send(mockUser);
     await agent.post('/api/v1/secrets').send(mockSecret);
     const res = await agent.get('/api/v1/secrets');
-    expect(res.body).toEqual([mockSecret]);
+    expect(res.body).toEqual([{ ...mockSecret, createdAt: expect.any(String) }]);
   });
 });
