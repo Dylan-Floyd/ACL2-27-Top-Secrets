@@ -34,4 +34,13 @@ describe('users routes', () => {
     const res = await agent.get('/api/v1/users/me');
     expect(res.body.email).toEqual(user.email);
   });
+
+  it('should prevent a user from accessing their profile after logging out', async () => {
+    const agent = request.agent(app);
+    await UserService.signUp(mockUser);
+    await agent.post('/api/v1/users/sessions').send(mockUser);
+    await agent.delete('/api/v1/users/sessions');
+    const res = await agent.get('/api/v1/users/me');
+    expect(res.status).toEqual(401);
+  });
 });
